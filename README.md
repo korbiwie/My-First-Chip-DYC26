@@ -20,6 +20,12 @@
 nix-shell librelane/
 ```
 
+if you have a error ```... is not owned by current user``` then run this comand first:
+```
+git config --global --add safe.directory /workspaces/My-First-Chip-DYC26/librelane
+
+```
+
 3. After several minutes everyting is going to be installed and you can run the smoke-test:
 
 ```
