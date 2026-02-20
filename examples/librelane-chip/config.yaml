@@ -49,6 +49,12 @@ PRIMARY_GDSII_STREAMOUT_TOOL: klayout
 EXTRA_GDS: dir::bondpad/bondpad_70x70.gds
 EXTRA_LEFS: dir::bondpad/bondpad_70x70.lef
 
+PDN_OBSTRUCTIONS:
+ - [TopMetal2, 450, 450, 750, 600]
+
+ROUTING_OBSTRUCTIONS:
+ - [TopMetal2, 450, 450, 750, 600]
+
 PAD_WEST:
   - sg13g2_IOPad_io_clock
   - sg13g2_IOPad_io_reset
@@ -106,7 +112,7 @@ MACROS:
         location: [640, 630]
         orientation: N
       u_counter_8bit_0:
-        location: [440, 430]
+        location: [440, 356]
         orientation: N
 
 PDN_MACRO_CONNECTIONS:
