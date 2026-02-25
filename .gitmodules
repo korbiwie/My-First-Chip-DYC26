@@ -4,3 +4,7 @@
 [submodule "librelane"]
 	path = librelane
 	url = https://github.com/librelane/librelane.git
+[submodule "chips/01-layr-1/design_data"]
+	path = chips/01-layr-1/design_data
+	url = https://github.com/janschaible/layer.git
+	branch = handin
