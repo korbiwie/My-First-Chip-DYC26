@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1771510863" />
+    <testcase name="test_target_x_hz" classname="test_clock_divider" file="/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/Chip/M6_Clock_Divider/test/test_clock_divider.py" lineno="81" time="25.69445490837097" sim_time_ns="40186920.0" ratio_time="1564030.8441377964" />
+  </testsuite>
+</testsuites>

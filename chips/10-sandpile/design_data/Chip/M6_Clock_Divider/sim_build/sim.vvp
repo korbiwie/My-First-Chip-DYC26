@@ -1,0 +1,92 @@
+#! /nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/bin/vvp
+:ivl_version "13.0 (devel)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/system.vpi";
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/v2005_math.vpi";
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/va_math.vpi";
+:vpi_module "/nix/store/nknbcs56x54kqhbv0slfca6v4gmi724v-iverilog-s20250103-60-gdb82380ce/lib/ivl/v2009.vpi";
+S_0x58fef1425150 .scope package, "$unit" "$unit" 2 1;
+ .timescale -9 -12;
+S_0x58fef14252e0 .scope module, "clock_divider" "clock_divider" 3 1;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst_n";
+    .port_info 2 /INPUT 12 "target_x_hz";
+    .port_info 3 /OUTPUT 1 "sim_ce";
+P_0x58fef1411110 .param/l "INPUT_FREQ" 0 3 2, +C4<00000001011111010111100001000000>;
+P_0x58fef1411150 .param/l "SCALE" 1 3 11, C4<0000000000000000000000000000000000000000000000000000000010101011>;
+v0x58fef13f8450_0 .var "acc", 31 0;
+o0x7c3de1cb1048 .functor BUFZ 1, c4<z>; HiZ drive
+v0x58fef14384d0_0 .net "clk", 0 0, o0x7c3de1cb1048;  0 drivers
+o0x7c3de1cb1078 .functor BUFZ 1, c4<z>; HiZ drive
+v0x58fef1438590_0 .net "rst_n", 0 0, o0x7c3de1cb1078;  0 drivers
+v0x58fef1438630_0 .var "sim_ce", 0 0;
+v0x58fef14386f0_0 .var "step", 31 0;
+o0x7c3de1cb1108 .functor BUFZ 12, c4<zzzzzzzzzzzz>; HiZ drive
+v0x58fef1438820_0 .net "target_x_hz", 11 0, o0x7c3de1cb1108;  0 drivers
+E_0x58fef13fe0c0 .event posedge, v0x58fef14384d0_0;
+S_0x58fef13fcf80 .scope module, "cocotb_iverilog_dump" "cocotb_iverilog_dump" 4 1;
+ .timescale -9 -12;
+S_0x58fef1438980 .scope begin, "$unm_blk_4" "$unm_blk_4" 4 2, 4 2 0, S_0x58fef13fcf80;
+ .timescale -9 -12;
+v0x58fef1438b80_0 .var/str "dumpfile_path";
+    .scope S_0x58fef14252e0;
+T_0 ;
+    %wait E_0x58fef13fe0c0;
+    %load/vec4 v0x58fef1438590_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v0x58fef13f8450_0, 0;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v0x58fef14386f0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x58fef1438630_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x58fef1438820_0;
+    %pad/u 32;
+    %muli 171, 0, 32;
+    %assign/vec4 v0x58fef14386f0_0, 0;
+    %load/vec4 v0x58fef13f8450_0;
+    %pad/u 33;
+    %load/vec4 v0x58fef14386f0_0;
+    %pad/u 33;
+    %add;
+    %split/vec4 32;
+    %assign/vec4 v0x58fef13f8450_0, 0;
+    %assign/vec4 v0x58fef1438630_0, 0;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x58fef13fcf80;
+T_1 ;
+    %fork t_1, S_0x58fef1438980;
+    %jmp t_0;
+    .scope S_0x58fef1438980;
+t_1 ;
+    %vpi_func 4 3 "$value$plusargs" 32, "dumpfile_path=%s", v0x58fef1438b80_0 {0 0 0};
+    %cmpi/ne 0, 0, 32;
+    %jmp/0xz  T_1.0, 4;
+    %vpi_call/w 4 4 "$dumpfile", v0x58fef1438b80_0 {0 0 0};
+    %jmp T_1.1;
+T_1.0 ;
+    %vpi_call/w 4 6 "$dumpfile", "/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/Chip/M6_Clock_Divider/sim_build/clock_divider.fst" {0 0 0};
+T_1.1 ;
+    %vpi_call/w 4 8 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x58fef14252e0 {0 0 0};
+    %end;
+    .scope S_0x58fef13fcf80;
+t_0 %join;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/Chip/M6_Clock_Divider/src/clock_divider.sv";
+    "/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/Chip/M6_Clock_Divider/sim_build/cocotb_iverilog_dump.v";

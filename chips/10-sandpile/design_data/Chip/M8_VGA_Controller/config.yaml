@@ -1,0 +1,22 @@
+# Der Name muss exakt mit deinem Top-Modul übereinstimmen
+DESIGN_NAME: top_vga_sandpile  
+
+# Liste alle deine Quelldateien auf
+VERILOG_FILES:
+  - src/horizontal_counter.sv
+  - src/vertical_counter.sv
+  - src/sandpile_renderer.sv
+  - src/vga_controller.sv
+  - src/top_vga_sandpile.sv 
+  # - src/test_top.sv              # Deine Top-Level Datei
+
+USE_SLANG: true
+
+CLOCK_PORT: clk
+# 40ns entsprechen 25 MHz (VGA-Standard für 640x480)
+CLOCK_PERIOD: 40 
+
+# Platzierung & Layout
+FP_CORE_UTIL: 50                # 25% Auslastung (gibt Platz für das Routing)
+PL_TARGET_DENSITY: 0.55         # Ziel-Dichte für die Platzierung
+#FP_ASPECT_RATIO: 1.0            # Quadratischer Chip

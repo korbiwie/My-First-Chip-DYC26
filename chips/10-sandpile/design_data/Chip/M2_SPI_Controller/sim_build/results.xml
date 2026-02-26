@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1771095963" />
+    <testcase name="test_hardware_reset" classname="test_spi_controller" file="/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/M2_SPI_Controller/test/test_spi_controller.py" lineno="63" time="0.0008997917175292969" sim_time_ns="10000.0" ratio_time="11113683.094859565" />
+    <testcase name="test_software_reset" classname="test_spi_controller" file="/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/M2_SPI_Controller/test/test_spi_controller.py" lineno="76" time="0.00022912025451660156" sim_time_ns="20000.0" ratio_time="87290405.82726327" />
+    <testcase name="test_spi_commands" classname="test_spi_controller" file="/home/korbiwie/hm-ig/2-Semester/hardware-code-design/sandpile/sandpile/M2_SPI_Controller/test/test_spi_controller.py" lineno="89" time="0.0004401206970214844" sim_time_ns="85000.0" ratio_time="193128840.73672807" />
+  </testsuite>
+</testsuites>
