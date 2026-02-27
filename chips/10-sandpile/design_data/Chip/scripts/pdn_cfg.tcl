@@ -206,7 +206,7 @@ add_pdn_connect \
 # soc sram grid
 define_pdn_grid \
     -macro \
-	    -cells "RM_IHPSG13_2P_1024x16_c2_bm_bist" \
+	    -cells "RM_IHPSG13_2P_256x16_c2_bm_bist" \
     -name soc_sram \
 	    -grid_over_boundary -voltage_domains {CORE} \
     -starts_with POWER 

@@ -7,7 +7,7 @@ module sand_grid_RAM #(
     
     // Size of RAM
     parameter int unsigned RAM_WORD_SIZE = 16,
-    // parameter int unsigned RAM_WORDS = 1024,
+    // parameter int unsigned RAM_WORDS = 256,
 
     parameter int unsigned TILE_SIZE = ROWS_TILE * COLS_TILE,
     parameter int unsigned GRID_SIZE = ROWS * COLS,
@@ -98,12 +98,12 @@ module sand_grid_RAM #(
 
     always_comb begin
         tile_addr_cell = ((cell_addr_y/ROWS_TILE) * (resolution/COLS_TILE) + cell_addr_x/COLS_TILE);
-        cell_addr_in_tile_new = (cell_addr_x % COLS_TILE) + (cell_addr_y % ROWS_TILE)*COLS_TILE;
+        cell_addr_in_tile = (cell_addr_x % COLS_TILE) + (cell_addr_y % ROWS_TILE)*COLS_TILE;
     end
 
     always_ff @(negedge clk) begin
         //delay new cell adress, as it takes one cycle before the RAM gets the new tile
-        cell_addr_in_tile <= cell_addr_in_tile_new;
+        // cell_addr_in_tile <= cell_addr_in_tile_new;
 
        if (tile_addr_cell < TILES_TOTAL) begin
             if (read_ram_a) begin
@@ -123,7 +123,7 @@ module sand_grid_RAM #(
         for (genvar b = 0; b < CELL_WIDTH; b++) begin : generate_sram
 
             `ifdef RAM_ASIC
-                RM_IHPSG13_2P_1024x16_c2_bm_bist u_sram_a (
+                RM_IHPSG13_2P_256x16_c2_bm_bist u_sram_a (
             `else
                 RAM_FPGA_2P u_sram_a (
             `endif
@@ -170,7 +170,7 @@ module sand_grid_RAM #(
             );
 
             `ifdef RAM_ASIC
-                RM_IHPSG13_2P_1024x16_c2_bm_bist u_sram_b (
+                RM_IHPSG13_2P_256x16_c2_bm_bist u_sram_b (
             `else
                 RAM_FPGA_2P u_sram_b (
             `endif

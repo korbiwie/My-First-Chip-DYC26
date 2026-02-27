@@ -1,7 +1,7 @@
 module test_vga #(
     parameter MAX_SIZE = 32,
-    parameter GRID_SIZE = MAX_SIZE*MAX_SIZE,
-    parameter COLS_SMALL = 4
+    parameter COLS_SMALL = 4,
+    parameter GRID_SIZE = MAX_SIZE*MAX_SIZE
 )(
     input clk,
     input rst_n,
