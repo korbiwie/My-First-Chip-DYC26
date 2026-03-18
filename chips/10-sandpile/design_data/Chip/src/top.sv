@@ -39,7 +39,7 @@ logic vga_vs;
 generate
 for (genvar i=0; i<1; i++) begin : iovdd_pads
     (* keep *)
-    sg13g2_IOPadIOVdd iovdd_pad  (
+    sg13cmos5l_IOPadIOVdd iovdd_pad  (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -50,7 +50,7 @@ for (genvar i=0; i<1; i++) begin : iovdd_pads
 end
 for (genvar i=0; i<1; i++) begin : iovss_pads
     (* keep *)
-    sg13g2_IOPadIOVss iovss_pad  (
+    sg13cmos5l_IOPadIOVss iovss_pad  (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -61,7 +61,7 @@ for (genvar i=0; i<1; i++) begin : iovss_pads
 end
 for (genvar i=0; i<1; i++) begin : vdd_pads
     (* keep *)
-    sg13g2_IOPadVdd vdd_pad  (
+    sg13cmos5l_IOPadVdd vdd_pad  (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -72,7 +72,7 @@ for (genvar i=0; i<1; i++) begin : vdd_pads
 end
 for (genvar i=0; i<1; i++) begin : vss_pads
     (* keep *)
-    sg13g2_IOPadVss vss_pad  (
+    sg13cmos5l_IOPadVss vss_pad  (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -83,7 +83,7 @@ for (genvar i=0; i<1; i++) begin : vss_pads
 end
 endgenerate
 // clk PAD instance
-sg13g2_IOPadIn clk_pad (
+sg13cmos5l_IOPadIn clk_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -94,7 +94,7 @@ sg13g2_IOPadIn clk_pad (
     .pad    (clk_PAD)
 );
 //reset PAD instance
-sg13g2_IOPadIn rst_n_pad (
+sg13cmos5l_IOPadIn rst_n_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -106,7 +106,7 @@ sg13g2_IOPadIn rst_n_pad (
 );
 
 // SPI input PADs
-sg13g2_IOPadIn sclk_pad (
+sg13cmos5l_IOPadIn sclk_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -117,7 +117,7 @@ sg13g2_IOPadIn sclk_pad (
     .pad    (sclk_PAD)
 );
 
-sg13g2_IOPadIn cs_pad (
+sg13cmos5l_IOPadIn cs_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -128,7 +128,7 @@ sg13g2_IOPadIn cs_pad (
     .pad    (cs_PAD)
 );
 
-sg13g2_IOPadIn pico_pad (
+sg13cmos5l_IOPadIn pico_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -140,7 +140,7 @@ sg13g2_IOPadIn pico_pad (
 );
 
 
-sg13g2_IOPadOut30mA poci_pad (
+sg13cmos5l_IOPadOut30mA poci_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -155,7 +155,7 @@ sg13g2_IOPadOut30mA poci_pad (
 generate
 for (genvar i=0; i<4; i++) begin : vga_r_pads
     (* keep *)
-    sg13g2_IOPadOut30mA vga_r_pad (
+    sg13cmos5l_IOPadOut30mA vga_r_pad (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -171,7 +171,7 @@ endgenerate
 generate
 for (genvar i=0; i<4; i++) begin : vga_g_pads
     (* keep *)
-    sg13g2_IOPadOut30mA vga_g_pad (
+    sg13cmos5l_IOPadOut30mA vga_g_pad (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -187,7 +187,7 @@ endgenerate
 generate
 for (genvar i=0; i<4; i++) begin : vga_b_pads
     (* keep *)
-    sg13g2_IOPadOut30mA vga_b_pad (
+    sg13cmos5l_IOPadOut30mA vga_b_pad (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -200,7 +200,7 @@ for (genvar i=0; i<4; i++) begin : vga_b_pads
 end
 endgenerate
 
-sg13g2_IOPadOut30mA vga_hs_pad (
+sg13cmos5l_IOPadOut30mA vga_hs_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),
@@ -211,7 +211,7 @@ sg13g2_IOPadOut30mA vga_hs_pad (
     .pad    (vga_hs_PAD)
 );
 
-sg13g2_IOPadOut30mA vga_vs_pad (
+sg13cmos5l_IOPadOut30mA vga_vs_pad (
     `ifdef USE_POWER_PINS
     .iovdd  (IOVDD),
     .iovss  (IOVSS),

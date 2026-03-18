@@ -2,8 +2,8 @@ WORK_DIR=$(shell pwd)
 TOP=top
 TAG=top-run-2x2
 
-PDK_ROOT ?= $(WORK_DIR)/../../pdk
-PDK = ihp-sg13g2
+PDK_ROOT ?= $(WORK_DIR)/../../../../pdk
+PDK = ihp-sg13cmos5l
 
 .PHONY: librelane
 librelane:

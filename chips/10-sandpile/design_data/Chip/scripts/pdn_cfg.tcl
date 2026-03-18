@@ -211,20 +211,6 @@ define_pdn_grid \
 	    -grid_over_boundary -voltage_domains {CORE} \
     -starts_with POWER 
 
-
-add_pdn_stripe \
-    -grid soc_sram \
-    -layer Metal5 \
-    -width 2.81 \
-    -pitch 11.24 \
-    -offset 2.81 \
-    -spacing 2.81 \
-    -nets "VSS VDD" \
-    -starts_with POWER
-
 add_pdn_connect \
     -grid soc_sram \
-    -layers "Metal4 Metal5"
-add_pdn_connect \
-    -grid soc_sram \
-    -layers "Metal5 TopMetal1"
+    -layers "Metal4 TopMetal1"

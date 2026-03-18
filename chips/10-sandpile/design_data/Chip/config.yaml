@@ -4,30 +4,30 @@ meta:
   substituting_steps:
   
     # Magic reports some overlaps which can be ignored
-    Checker.IllegalOverlap: null
+    Checker.IllegalOverlap: null # mandatory
     # Not working correctly
-    KLayout.SealRing: null
-    # Disable magic DRC 
-    Magic.DRC: null
-    Checker.MagicDRC: null
+    # KLayout.SealRing: null
+    # Disable magic DRC
+    Magic.DRC: null # mandatory
+    Checker.MagicDRC: null # mandatory
     # Disable KLayout density check
-    KLayout.Density: null
-    Checker.KLayoutDensity: null
-    Checker.YosysSynthChecks: null # temporary disable TODO
+    # KLayout.Density: null
+    # Checker.KLayoutDensity: null
+    # Checker.YosysSynthChecks: null # temporary disable TODO
 
     # # you can uncomment this for the flow to be faster. Comment it again in the final run.
-    #KLayout.DRC: null
-    #Checker.KLayoutDRC: null
+    # KLayout.DRC: null
+    # Checker.KLayoutDRC: null
 
     # # you can uncomment this for the flow to be faster. Comment it again in the final run.
-    #KLayout.Antenna: null
-    #Checker.KLayoutAntenna: null
+    # KLayout.Antenna: null
+    # Checker.KLayoutAntenna: null
     
     # # you can uncomment this for the flow to be faster. Comment it again in the final run.
-    #OpenROAD.IRDropReport: null
-    #KLayout.XOR: null
-    #Netgen.LVS: null
-    #Checker.LVS: null
+    # OpenROAD.IRDropReport: null
+    # KLayout.XOR: null
+    # Netgen.LVS: null
+    # Checker.LVS: null
 
 DESIGN_NAME: top
 VERILOG_FILES:
@@ -42,8 +42,8 @@ VERILOG_FILES:
   - dir::M5_Macro_Array_RAM_V2/src/macro_sand_array.sv
   - dir::M5_Macro_Array_RAM_V2/src/sand_grid_RAM.sv
   - dir::M5_Macro_Array_RAM_V2/src/ram_FPGA_2P.sv
-  - dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/verilog/RM_IHPSG13_2P_256x16_c2_bm_bist.v
-  - dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/verilog/RM_IHPSG13_2P_core_behavioral_bm_bist_ideal.v
+  - dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_256x16_c2_bm_bist.v
+  - dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_core_behavioral_bm_bist_ideal.v
   - dir::M8_VGA_Controller/src/sandpile_renderer.sv
   - dir::M8_VGA_Controller/src/vga_controller.sv
   - dir::M8_VGA_Controller/src/horizontal_counter.sv
@@ -61,8 +61,8 @@ FP_SIZING: absolute
 DIE_AREA: [0, 0, 2000, 2000]
 CORE_AREA: [358.00, 358.00, 1642, 1642]
 
-PL_TARGET_DENSITY: 0.5
-MAX_FANOUT_CONSTRAINT: 8
+PL_TARGET_DENSITY: 0.45
+MAX_FANOUT_CONSTRAINT: 7
 
 PDN_CFG: dir::scripts/pdn_cfg.tcl
 
@@ -70,23 +70,21 @@ PDN_CORE_RING: true
 PDN_CORE_RING_CONNECT_TO_PADS: true
 MAGIC_EXT_UNIQUE: "notopports"
 PDN_ENABLE_PINS: false
-PDN_CORE_RING_VWIDTH: 15
-PDN_CORE_RING_HWIDTH: 15
-PDN_VPITCH: 50
-PDN_HPITCH: 50
-PDN_VWIDTH: 3.5
-PDN_HWIDTH: 3.5
+
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
 
 VDD_NETS: ["VDD"]
 GND_NETS: ["VSS"]
 
 GRT_ALLOW_CONGESTION: true
-IGNORE_DISCONNECTED_MODULES:
-- bondpad_70x70
-EXTRA_GDS: 
-- dir::bondpad/bondpad_70x70.gds
+PAD_BONDPAD_NAME: bondpad_70x70_5L
+EXTRA_GDS:
+- dir::bondpad_5l/gds/bondpad_70x70_5L.gds
 EXTRA_LEFS:
-- dir::bondpad/bondpad_70x70.lef
+- dir::bondpad_5l/lef/bondpad_70x70_5L.lef
+IGNORE_DISCONNECTED_MODULES:
+- bondpad_70x70_5L
 
 PAD_SOUTH: [
   "vdd_pads\\[0\\].vdd_pad",
@@ -124,10 +122,18 @@ PAD_WEST: [
 ]
 
 PDN_OBSTRUCTIONS:
-  - [TopMetal2, 400, 1550, 496, 1604]
+  - [TopMetal1, 400, 1550, 496, 1604]
+  - [Metal4, 400, 1550, 496, 1604]
+  - [Metal3, 400, 1550, 496, 1604]
+  - [Metal2, 400, 1550, 496, 1604]
+  - [Metal1, 400, 1550, 496, 1604]
 
 ROUTING_OBSTRUCTIONS:
-  - [TopMetal2, 400, 1550, 496, 1604]
+  - [TopMetal1, 400, 1550, 496, 1604]
+  - [Metal4, 400, 1550, 496, 1604]
+  - [Metal3, 400, 1550, 496, 1604]
+  - [Metal2, 400, 1550, 496, 1604]
+  - [Metal1, 400, 1550, 496, 1604]
 
 # use ASIC version of RAM
 SYNTH_DEFINES:
@@ -135,12 +141,12 @@ SYNTH_DEFINES:
 
 MACROS:
   "RM_IHPSG13_2P_256x16_c2_bm_bist":
-    gds: dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/gds/RM_IHPSG13_2P_256x16_c2_bm_bist.gds
-    lef: dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/lef/RM_IHPSG13_2P_256x16_c2_bm_bist.lef
+    gds: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_2P_256x16_c2_bm_bist.gds
+    lef: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lef/RM_IHPSG13_2P_256x16_c2_bm_bist.lef
     lib: 
-      nom_typ_1p20V_25C: dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_typ_1p20V_25C.lib
-      nom_fast_1p32V_m40C: dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_fast_1p32V_m55C.lib
-      nom_slow_1p08V_125C: dir::../../../pdk/ihp-sg13g2/libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_slow_1p08V_125C.lib
+      nom_typ_1p20V_25C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_typ_1p20V_25C.lib
+      nom_fast_1p32V_m40C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_fast_1p32V_m55C.lib
+      nom_slow_1p08V_125C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x16_c2_bm_bist_slow_1p08V_125C.lib
 
     instances:
 
