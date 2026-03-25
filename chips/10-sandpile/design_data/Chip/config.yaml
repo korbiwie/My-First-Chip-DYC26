@@ -2,7 +2,7 @@ meta:
   version: 3
   flow: Chip
   substituting_steps:
-  
+    KLayout.Filler: Magic.Filler
     # Magic reports some overlaps which can be ignored
     Checker.IllegalOverlap: null # mandatory
     # Not working correctly
@@ -61,7 +61,7 @@ FP_SIZING: absolute
 DIE_AREA: [0, 0, 2000, 2000]
 CORE_AREA: [358.00, 358.00, 1642, 1642]
 
-PL_TARGET_DENSITY: 0.45
+PL_TARGET_DENSITY: 0.55
 MAX_FANOUT_CONSTRAINT: 7
 
 PDN_CFG: dir::scripts/pdn_cfg.tcl
@@ -71,8 +71,14 @@ PDN_CORE_RING_CONNECT_TO_PADS: true
 MAGIC_EXT_UNIQUE: "notopports"
 PDN_ENABLE_PINS: false
 
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+
 PDN_CORE_RING_VSPACING: 5
 PDN_CORE_RING_HSPACING: 5
+
+MAGIC_FILLER_SCRIPT: dir::scripts/generate_fill.py
+MAGIC_FILLER_OPTIONS: ["-keep"]
 
 VDD_NETS: ["VDD"]
 GND_NETS: ["VSS"]
@@ -152,24 +158,24 @@ MACROS:
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[0].u_sram_a:
             location: [400, 400]
-            orientation: FN
+            orientation: N
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[1].u_sram_a:
-            location: [400, 600]
-            orientation: W
+            location: [400, 800]
+            orientation: N
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[2].u_sram_a:
-            location: [400, 1080]
-            orientation: W
+            location: [400, 1200]
+            orientation: N
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[0].u_sram_b:
             location: [1170, 400]
-            orientation: FN
+            orientation: N
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[1].u_sram_b:
-            location: [1450, 600]
-            orientation: E
+            location: [1170, 800]
+            orientation: N
 
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[2].u_sram_b:
-            location: [1450, 1080]
-            orientation: E
+            location: [1170, 1200]
+            orientation: N

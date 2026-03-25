@@ -202,15 +202,16 @@ add_pdn_connect \
     -layers "$::env(PDN_VERTICAL_LAYER) $::env(PDN_HORIZONTAL_LAYER)"
 
 
+# pdn connection of sram macros
 
-# soc sram grid
 define_pdn_grid \
     -macro \
-	    -cells "RM_IHPSG13_2P_256x16_c2_bm_bist" \
+    -cells "RM_IHPSG13_2P_256x16_c2_bm_bist" \
     -name soc_sram \
-	    -grid_over_boundary -voltage_domains {CORE} \
-    -starts_with POWER 
+    -grid_over_boundary \
+    -voltage_domains {CORE}
 
+# connect to pins
 add_pdn_connect \
     -grid soc_sram \
     -layers "Metal4 TopMetal1"
