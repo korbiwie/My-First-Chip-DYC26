@@ -1,6 +1,6 @@
 module sand_array_for_macro #(
-    parameter int unsigned ROWS = 5,
-    parameter int unsigned COLS = 5,
+    parameter int unsigned ROWS = 4,
+    parameter int unsigned COLS = 4,
 
     parameter int unsigned GRID_SIZE = ROWS * COLS,
     parameter int unsigned GRID_SIZE_BORDER = (ROWS+2) * (COLS+2)
@@ -9,14 +9,12 @@ module sand_array_for_macro #(
     input rst_n,
     input activated_i,
     input drop_i,
-    input [4:0] drop_x,       //clog2 = min necessary bits to display ROWS
-    input [4:0] drop_y,
+    input [8:0] drop_x,       //clog2 = min necessary bits to display ROWS
+    input [8:0] drop_y,
     input [0:GRID_SIZE_BORDER-1] collapse_i,
-    input [2:0] stack_i [0:GRID_SIZE-1],
-    input [($clog2(ROWS+1)-1):0] activeRows_i,
-    input [($clog2(COLS+1)-1):0] activeCols_i,
+    input [1:0] stack_i [0:GRID_SIZE-1],
 
-    output logic [2:0] stack_o [0:GRID_SIZE-1],
+    output logic [1:0] stack_o [0:GRID_SIZE-1],
     output logic [0:GRID_SIZE-1] collapse_o
 );
 
@@ -32,13 +30,13 @@ module sand_array_for_macro #(
                 sand_cell u_cell (
                     .clk        (clk),
                     .rst_n      (rst_n),
-                    .activated_i((r < activeRows_i && c < activeCols_i) ? activated_i : 1'b0),
+                    .activated_i(activated_i),
                     .drop_i     ((r == drop_y && c == drop_x) ? drop_i : 1'b0),
                     .left_i     (collapse_i[index_border-1]),
                     .right_i    (collapse_i[index_border+1]),
                     .up_i       (collapse_i[index_border-COLS_BORDER]),
                     .down_i     (collapse_i[index_border+COLS_BORDER]),
-                    .stack_i    (stack_i[r*COLS+c][1:0]),
+                    .stack_i    (stack_i[r*COLS+c]),
                     
                     .collapse_o (collapse_o[(r*COLS+c)]),
                     .stack_o (stack_o[r*COLS + c])

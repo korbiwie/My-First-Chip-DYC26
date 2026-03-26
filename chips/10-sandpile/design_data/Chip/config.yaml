@@ -37,12 +37,14 @@ VERILOG_FILES:
   - dir::M7_Trng/src/trng.sv
   - dir::M1_Controller/src/controller.sv
   - dir::M2_SPI_Controller/src/spi_controller.sv
-  - dir::M5_Macro_Array_RAM_V2/src/sand_cell_forMacro.sv
-  - dir::M5_Macro_Array_RAM_V2/src/sand_array_forMacro.sv
-  - dir::M5_Macro_Array_RAM_V2/src/macro_sand_array.sv
-  - dir::M5_Macro_Array_RAM_V2/src/sand_grid_RAM.sv
-  - dir::M5_Macro_Array_RAM_V2/src/ram_FPGA_2P.sv
+  - dir::M5_Macro_Array_RAM_V3/src/sand_cell_forMacro.sv
+  - dir::M5_Macro_Array_RAM_V3/src/sand_array_forMacro.sv
+  - dir::M5_Macro_Array_RAM_V3/src/macro_sand_array.sv
+  - dir::M5_Macro_Array_RAM_V3/src/sand_grid_RAM.sv
+  - dir::M5_Macro_Array_RAM_V3/src/ram_FPGA_2P.sv
+  - dir::M5_Macro_Array_RAM_V3/src/ram_collapse.sv
   - dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_256x16_c2_bm_bist.v
+  - dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_256x32_c2_bm_bist.v
   - dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_core_behavioral_bm_bist_ideal.v
   - dir::M8_VGA_Controller/src/sandpile_renderer.sv
   - dir::M8_VGA_Controller/src/vga_controller.sv
@@ -164,10 +166,6 @@ MACROS:
             location: [400, 800]
             orientation: N
 
-          u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[2].u_sram_a:
-            location: [400, 1200]
-            orientation: N
-
           u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[0].u_sram_b:
             location: [1170, 400]
             orientation: N
@@ -176,6 +174,20 @@ MACROS:
             location: [1170, 800]
             orientation: N
 
-          u_chip.u_macro_sand_array.u_sand_grid_RAM.generate_sram[2].u_sram_b:
+  "RM_IHPSG13_2P_256x32_c2_bm_bist":
+    gds: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_2P_256x32_c2_bm_bist.gds
+    lef: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lef/RM_IHPSG13_2P_256x32_c2_bm_bist.lef
+    lib: 
+      nom_typ_1p20V_25C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x32_c2_bm_bist_typ_1p20V_25C.lib
+      nom_fast_1p32V_m40C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x32_c2_bm_bist_fast_1p32V_m55C.lib
+      nom_slow_1p08V_125C: dir::../../../../pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_2P_256x32_c2_bm_bist_slow_1p08V_125C.lib
+
+    instances:
+
+          u_chip.u_macro_sand_array.u_ram_collapse.u_sram_a:
+            location: [400, 1200]
+            orientation: N
+
+          u_chip.u_macro_sand_array.u_ram_collapse.u_sram_b:
             location: [1170, 1200]
             orientation: N

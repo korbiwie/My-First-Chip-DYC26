@@ -1,7 +1,8 @@
 module test_top#(
-    parameter MAX_SIZE = 32,
+    parameter MAX_SIZE = 64,
     parameter GRID_SIZE = MAX_SIZE*MAX_SIZE,
-    parameter COLS_SMALL = 4
+    parameter ROWS_SMALL = 1,
+    parameter COLS_SMALL = 16
 )(
     input clk,
     input rst_n,
@@ -28,7 +29,7 @@ module test_top#(
     macro_sand_array #(
         .ROWS(MAX_SIZE),
         .COLS(MAX_SIZE),
-        .ROWS_SMALL(COLS_SMALL),
+        .ROWS_SMALL(ROWS_SMALL),
         .COLS_SMALL(COLS_SMALL)
     ) array_unit (
         .clk(clk),

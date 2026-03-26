@@ -1,25 +1,25 @@
 module RAM_FPGA_2P #(
     parameter int unsigned DATA_WIDTH = 16,
-    parameter int unsigned ADDR_WIDTH = 1024
+    parameter int unsigned ADDR_WIDTH = 256
 )(
     input  wire         A_CLK,
-    input  wire [9:0]   A_ADDR,
-    input  wire [15:0]  A_DIN,
-    input  wire [15:0]  A_BM,      // Bit mask (1 = write bit)
+    input  wire [$clog2(ADDR_WIDTH)-1:0]   A_ADDR,
+    input  wire [DATA_WIDTH-1:0]  A_DIN,
+    input  wire [DATA_WIDTH-1:0]  A_BM,      // Bit mask (1 = write bit)
     input  wire         A_WEN,     // Active high write enable
     input  wire         A_MEN,     // Memory enable
     input  wire         A_REN,     // Read enable
-    output reg  [15:0]  A_DOUT,
+    output reg  [DATA_WIDTH-1:0]  A_DOUT,
     input  wire         A_DLY,     // Ignored on FPGA
 
     input  wire         B_CLK,
-    input  wire [9:0]   B_ADDR,
-    input  wire [15:0]  B_DIN,
-    input  wire [15:0]  B_BM,
+    input  wire [$clog2(ADDR_WIDTH)-1:0]   B_ADDR,
+    input  wire [DATA_WIDTH-1:0]  B_DIN,
+    input  wire [DATA_WIDTH-1:0]  B_BM,
     input  wire         B_WEN,
     input  wire         B_MEN,
     input  wire         B_REN,
-    output reg  [15:0]  B_DOUT,
+    output reg  [DATA_WIDTH-1:0]  B_DOUT,
     input  wire         B_DLY      // Ignored on FPGA
 );
     // This should infer BRAM on FPGAs

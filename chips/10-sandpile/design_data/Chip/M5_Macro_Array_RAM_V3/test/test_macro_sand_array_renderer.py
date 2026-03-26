@@ -82,8 +82,9 @@ class MacroArrayTester:
         await RisingEdge(self.clk) # next drop pos gets only updated on rising clock edge
         await FallingEdge(self.clk) # needed to be sure that new_frame_i is 1 during only one rising edge
         self.new_frame_i.value = 1
-        await RisingEdge(self.new_data) # stack gets only updated on rising clock edge
+        await RisingEdge(self.clk)
         self.new_frame_i.value = 0
+        await RisingEdge(self.new_data) # stack gets only updated on rising clock edge  
         await FallingEdge(self.clk)
         assert self.new_data.value == True
 
@@ -178,6 +179,14 @@ class Sandpile:
 
         self.grid = new_grid
         return topple
+    
+    def check_topple(self):
+        topple = False
+        for x in range(self.rows):
+            for y in range(self.columns):
+                if self.grid[x][y] >= self.threshold:
+                    topple = True
+        return topple
 
     def fill_stack(self, value):
         for x in range(self.rows):
@@ -188,7 +197,7 @@ class Sandpile:
 @cocotb.test()
 async def test_random(dut):
     """Test: Check random dropping and topple functionality"""
-    resolution = 32
+    resolution = 64
     tester = MacroArrayTester(dut)
     tester.resolution.value = resolution
     rows = resolution
@@ -200,7 +209,7 @@ async def test_random(dut):
     cocotb.start_soon(clock.start())
 
     await tester.reset()
-    # await tester.check_adressing(simulator.grid.tolist(), False)
+    # await tester.check_adressing(simulator.grid.tolist(), simulator.check_topple()
 
     # first drop
     x = 2
@@ -209,19 +218,21 @@ async def test_random(dut):
     await tester.drop_sand(x,y)
     topple = simulator.drop_sand(x,y)
 
-    for i in range(2000):
+    for i in range(500):
         x = random.randint(0,rows-1)
         y = random.randint(0,cols-1)
 
+        print("Drop at", x, y)
         await tester.drop_sand(x,y)
         topple = simulator.drop_sand(x,y)
 
-        if i%1000 == 999:
+        if i%500 == 499:
             await tester.get_grid_image(i)
         
         while(topple):
             topple = simulator.topple_cycle()
             await tester.check_next_topple(topple)
+            topple = simulator.check_topple()
 
     dut._log.info("✓ Full test passed")
 
@@ -237,8 +248,10 @@ def test_sand_cell_runner():
                 proj_path / "src" / "macro_sand_array.sv",
                 proj_path / "src" / "sand_grid_RAM.sv",
                 proj_path / "src" / "ram_FPGA_2P.sv",
-                proj_path.parent.parent.parent / "pdk/ihp-sg13g2/libs.ref/sg13g2_sram/verilog/RM_IHPSG13_2P_1024x16_c2_bm_bist.v",
-                proj_path.parent.parent.parent / "pdk/ihp-sg13g2/libs.ref/sg13g2_sram/verilog/RM_IHPSG13_2P_core_behavioral_bm_bist_ideal.v",
+                proj_path / "src" / "ram_collapse.sv",
+                proj_path.parent.parent.parent.parent.parent / "pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_256x16_c2_bm_bist.v",
+                proj_path.parent.parent.parent.parent.parent / "pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_256x32_c2_bm_bist.v",
+                proj_path.parent.parent.parent.parent.parent / "pdk/ihp-sg13cmos5l/libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_2P_core_behavioral_bm_bist_ideal.v",
                 proj_path / "test" / "test_renderer.sv",
                 proj_path.parent / "M8_VGA_Controller" / "src" / "sandpile_renderer.sv",
                 proj_path.parent / "M8_VGA_Controller" / "src" / "top_vga_sandpile.sv",

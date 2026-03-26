@@ -1,9 +1,10 @@
 module sand_grid_RAM #(
-    parameter int unsigned ROWS = 128,        // <= 128 needs to be a multiple of ROWS_TILE
-    parameter int unsigned COLS = 128,        // <= 128 needs to be a multiple of COLS_TILE
+    parameter int unsigned ROWS = 64,        // <= 64
+    parameter int unsigned COLS = 64,        // <= 64
     parameter int unsigned ROWS_TILE = 4,   // <= 4
     parameter int unsigned COLS_TILE = 4,   // <= 4
-    parameter [1:0] CELL_WIDTH = 3,
+    parameter [1:0] CELL_WIDTH = 2,
+    parameter [1:0] CELL_WIDTH_TILE_OUT = 2,
     
     // Size of RAM
     parameter int unsigned RAM_WORD_SIZE = 16,
@@ -15,18 +16,18 @@ module sand_grid_RAM #(
 )(
     input clk,
     input rst_n,
-    input [9:0] tile_addr,
+    input [7:0] tile_addr,
     input [CELL_WIDTH-1:0] tile_data_i [0:TILE_SIZE-1],
     input write_tile,
     input read_tile,
     input reset_tile,
     input read_ram_a,
 
-    input [9:0] cell_addr_x,   //clog2 = min necessary bits to display COLS
-    input [9:0] cell_addr_y,
+    input [7:0] cell_addr_x,   //clog2 = min necessary bits to display COLS
+    input [7:0] cell_addr_y,
     input [8:0] resolution,
 
-    output logic [CELL_WIDTH-1:0] tile_data_o [0:TILE_SIZE-1],
+    output logic [CELL_WIDTH_TILE_OUT-1:0] tile_data_o [0:TILE_SIZE-1],
     output logic [CELL_WIDTH-1:0] cell_data
 );
 
@@ -75,13 +76,13 @@ module sand_grid_RAM #(
         if (read_tile) begin
             if (read_ram_a) begin
                 for (int unsigned sand_cell = 0; sand_cell < TILE_SIZE; sand_cell++) begin
-                    for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
+                    for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH_TILE_OUT; bit_nr++) begin
                         tile_data_o[sand_cell][bit_nr] = sram_a_rdata[bit_nr][sand_cell];
                     end
                 end
             end else begin
                 for (int unsigned sand_cell = 0; sand_cell < TILE_SIZE; sand_cell++) begin
-                    for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
+                    for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH_TILE_OUT; bit_nr++) begin
                         tile_data_o[sand_cell][bit_nr] = sram_b_rdata[bit_nr][sand_cell];
                     end
                 end
@@ -90,7 +91,7 @@ module sand_grid_RAM #(
     end
 
     //Read access single sand cell
-    logic [9:0] tile_addr_cell;
+    logic [7:0] tile_addr_cell;
     logic [3:0] cell_addr_in_tile;
     logic [3:0] cell_addr_in_tile_new;
     logic [15:0] sram_a_cell_rdata [0:CELL_WIDTH-1];
@@ -98,24 +99,22 @@ module sand_grid_RAM #(
 
     always_comb begin
         tile_addr_cell = ((cell_addr_y/ROWS_TILE) * (resolution/COLS_TILE) + cell_addr_x/COLS_TILE);
-        cell_addr_in_tile = (cell_addr_x % COLS_TILE) + (cell_addr_y % ROWS_TILE)*COLS_TILE;
+        cell_addr_in_tile_new = (cell_addr_x % COLS_TILE) + (cell_addr_y % ROWS_TILE)*COLS_TILE;
     end
 
     always_ff @(negedge clk) begin
-        //delay new cell adress, as it takes one cycle before the RAM gets the new tile
-        // cell_addr_in_tile <= cell_addr_in_tile_new;
+        // delay new cell adress, as it takes one cycle before the RAM gets the new tile
+        cell_addr_in_tile <= cell_addr_in_tile_new;
 
-       if (tile_addr_cell < TILES_TOTAL) begin
-            if (read_ram_a) begin
-                for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
-                    cell_data[bit_nr] <= sram_a_cell_rdata[bit_nr][cell_addr_in_tile];
-                end
-            end else begin
-                for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
-                    cell_data[bit_nr] <= sram_b_cell_rdata[bit_nr][cell_addr_in_tile];
-                end
+        if (read_ram_a) begin
+            for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
+                cell_data[bit_nr] <= sram_a_cell_rdata[bit_nr][cell_addr_in_tile];
             end
-        end     
+        end else begin
+            for (int unsigned bit_nr = 0; bit_nr < CELL_WIDTH; bit_nr++) begin
+                cell_data[bit_nr] <= sram_b_cell_rdata[bit_nr][cell_addr_in_tile];
+            end
+        end 
     end
 
     // RAM Bank
@@ -125,7 +124,10 @@ module sand_grid_RAM #(
             `ifdef RAM_ASIC
                 RM_IHPSG13_2P_256x16_c2_bm_bist u_sram_a (
             `else
-                RAM_FPGA_2P u_sram_a (
+                RAM_FPGA_2P #(
+                    .DATA_WIDTH(16),
+                    .ADDR_WIDTH(256)
+                ) u_sram_a (
             `endif
                 .A_CLK(clk),
                 .A_ADDR(tile_addr),
@@ -172,7 +174,10 @@ module sand_grid_RAM #(
             `ifdef RAM_ASIC
                 RM_IHPSG13_2P_256x16_c2_bm_bist u_sram_b (
             `else
-                RAM_FPGA_2P u_sram_b (
+                RAM_FPGA_2P #(
+                    .DATA_WIDTH(16),
+                    .ADDR_WIDTH(256)
+                ) u_sram_b (
             `endif
                 .A_CLK(clk),
                 .A_ADDR(tile_addr),

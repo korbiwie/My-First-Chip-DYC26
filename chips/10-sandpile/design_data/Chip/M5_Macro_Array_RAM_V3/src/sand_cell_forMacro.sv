@@ -11,7 +11,7 @@ module sand_cell(
     input [1:0] stack_i,
 
     output logic collapse_o,
-    output [2:0] stack_o
+    output [1:0] stack_o
 );
 
     logic [3:0] current_stack;
@@ -44,6 +44,6 @@ module sand_cell(
         end
     end
 
-    assign stack_o = {collapse_o, current_stack[1:0]};
+    assign stack_o = current_stack[1:0];
 
 endmodule

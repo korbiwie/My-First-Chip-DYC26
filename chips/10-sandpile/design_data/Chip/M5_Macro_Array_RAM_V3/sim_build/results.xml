@@ -1,0 +1,7 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1774486713" />
+    <testcase name="test_topple" classname="test_macro_sand_array" file="/workspaces/My-First-Chip-DYC26/chips/10-sandpile/design_data/Chip/M5_Macro_Array_RAM_V3/test/test_macro_sand_array.py" lineno="192" time="150.3126893043518" sim_time_ns="5032250000.0" ratio_time="33478544.115532022" />
+    <testcase name="test_random" classname="test_macro_sand_array" file="/workspaces/My-First-Chip-DYC26/chips/10-sandpile/design_data/Chip/M5_Macro_Array_RAM_V3/test/test_macro_sand_array.py" lineno="254" time="288.03095030784607" sim_time_ns="7644159999.999999" ratio_time="26539370.133070625" />
+  </testsuite>
+</testsuites>
