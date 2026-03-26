@@ -215,3 +215,15 @@ define_pdn_grid \
 add_pdn_connect \
     -grid soc_sram \
     -layers "Metal4 TopMetal1"
+
+define_pdn_grid \
+    -macro \
+    -cells "RM_IHPSG13_2P_256x32_c2_bm_bist" \
+    -name soc_sram_32 \
+    -grid_over_boundary \
+    -voltage_domains {CORE}
+
+# connect to pins
+add_pdn_connect \
+    -grid soc_sram_32 \
+    -layers "Metal4 TopMetal1"
