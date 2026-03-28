@@ -1,0 +1,15 @@
+diff --git a/flake.nix b/flake.nix
+index bb9946d..4305408 100644
+--- a/flake.nix
++++ b/flake.nix
+@@ -177,8 +177,9 @@
+               types-psutil
+               types-lxml
+               pipx
++              numpy
+             ];
+-            include-librelane = false;
++            include-librelane = true;
+           }) { };
+           docs = callPackage (pkgs.createLibreLaneShell {
+             extra-packages = with pkgs; [
